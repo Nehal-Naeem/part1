@@ -28,7 +28,7 @@ const App = () => {
     let randIndex = Math.round(Math.random() * (anecdotes.length - 1));
     setSelected(randIndex);
   }
-  
+
   function handleVote() {
     const votesCopy = [...votes];
     votesCopy[selected] += 1;
@@ -36,13 +36,39 @@ const App = () => {
     setVotes(votesCopy);
   }
 
+  function MostVotedQuote() {
+    let max = 0;
+    let indexOfMax = 0;
+    for (let i of votes) {
+      if (votes[i] > max) {
+        max = votes[i];
+        indexOfMax = i;
+      }
+    }
+
+    return (
+      <div>
+        <p>
+          {anecdotes[indexOfMax]}</p>
+        <p>
+          this anecdote has {votes[selected]} votes
+        </p>
+      </div>
+    )
+
+  }
+
   return (
     <div>
+      <h1>Anecdote of the day</h1>
       <p>
         {anecdotes[selected]}
       </p>
+      <p>this anecdote has {votes[selected]} votes</p>
       <Button handleClick={handleVote} text='vote' />
       <Button handleClick={setRandomSelected} text='next anecdote' />
+      <h1>Anecdote with the most votes</h1>
+      <MostVotedQuote />
     </div>
   )
 }
