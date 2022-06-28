@@ -1,20 +1,20 @@
 import { useState } from 'react'
 
-function Button({handleClick, text}) {
+function Button({ handleClick, text }) {
   return (
-    <button onClick = {handleClick}>
+    <button onClick={handleClick}>
       {text}
     </button>
   )
 }
 
-function DisplayStat({text, value}) {
-  return (
-    <div>
-      {text} {value}
-    </div>
-  )
-}
+// function DisplayStat({ text, value }) {
+//   return (
+//     <div>
+//       {text} {value}
+//     </div>
+//   )
+// }
 
 const App = () => {
   // save clicks of each button to its own state
@@ -27,7 +27,7 @@ const App = () => {
   }
 
   function handleBadClick() {
-    setBad(bad  + 1);
+    setBad(bad + 1);
   }
 
   function handleNeutralClick() {
@@ -36,12 +36,52 @@ const App = () => {
 
   function getAverage(g, n, b) {
     let total = g + n + b;
-    return total === 0? 0: (g-b)/total;
+    return total === 0 ? 0 : (g - b) / total;
   }
 
   function getPositive(g, n, b) {
     let total = g + n + b;
-    return g !== 0?(g/total) * 100 + ' %': 0+' %';
+    return g !== 0 ? (g / total) * 100 + ' %' : 0 + ' %';
+  }
+
+  function AllStats() {
+    if (good + neutral + bad !== 0) {
+      return (
+        <table>
+          <tr>
+            <td>good</td>
+            <td>{good}</td>
+          </tr>
+          <tr>
+            <td>neutral</td>
+            <td>{neutral}</td>
+          </tr>
+          <tr>
+            <td>bad</td>
+            <td>{bad}</td>
+          </tr>
+          <tr>
+            <td>all</td>
+            <td>{bad + good + neutral}</td>
+          </tr>
+          <tr>
+            <td>average</td>
+            <td>{getAverage(good, neutral, bad)}</td>
+          </tr>
+          <tr>
+            <td>positive</td>
+            <td>{getPositive(good, neutral, bad)}</td>
+          </tr>
+        </table>
+      )
+    } else {
+      return (
+        <div>
+          No feedback given
+        </div>
+      )
+    }
+
   }
 
   return (
@@ -51,12 +91,7 @@ const App = () => {
       <Button handleClick={handleNeutralClick} text='neutral' />
       <Button handleClick={handleBadClick} text='bad' />
       <h1>statistics</h1>
-      <DisplayStat text='good' value={good} />
-      <DisplayStat text='neutral' value={neutral} />
-      <DisplayStat text='bad' value={bad} />
-      <DisplayStat text='all' value={bad + good + neutral} />
-      <DisplayStat text='average' value={getAverage(good, neutral, bad)} />
-      <DisplayStat text='positive' value={getPositive(good, neutral, bad)} />
+      <AllStats />
     </div>
   )
 }
